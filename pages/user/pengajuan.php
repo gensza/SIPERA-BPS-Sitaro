@@ -210,6 +210,7 @@ include "../config_sqli.php";
                     <th>Tgl Pengajuan</th>
                     <th>Nama Pengajuan</th>
                     <th style="text-align: center;">Status</th>
+                    <th>Aksi</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -234,6 +235,18 @@ include "../config_sqli.php";
                     }else{
                       echo "<span class='badge bg-warning'> DIAJUKAN";
                     } ?>
+                    </td>
+                    <td>
+                      <a class="btn btn-info btn-sm" onclick="editPengajuan(<?php echo $row['id']; ?>)">
+                                <i class="fas fa-pencil-alt">
+                                </i>
+                                Edit
+                      </a>
+                      <a class="btn btn-danger btn-sm" onclick="deletePengajuan(<?php echo $row['id']; ?>)">
+                                <i class="fas fa-trash">
+                                </i>
+                                Delete
+                      </a>
                     </td>
                     <?php include "button-pengajuan-approved.php"; ?>
                     
@@ -265,7 +278,7 @@ include "../config_sqli.php";
     </div>
   </footer>
 
-  <div id="AddPengajuan" class="modal fade" tabindex="-1" role="dialog">
+    <div id="AddPengajuan" class="modal fade" tabindex="-1" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
         <div class="modal-header">
@@ -328,14 +341,94 @@ include "../config_sqli.php";
 				</div>
 			</div>
 		</div>
-
-
-
-    
-
     </div>
   </div>
 </div>
+
+  <div id="editPengajuanModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Edit Pengajuan Barang</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form action="pengajuan-edit.php" enctype="multipart/form-data" method="POST">
+            <input type="hidden" name="id_pengajuan" id="editIdPengajuan">
+            <input type="hidden" name="proses_pengajuan" id="editProsesPengajuan">
+            <div class="form-group">
+              <label>Pilih Barang</label>
+              <div class="input-group">
+                <select name="nama_barang" id="editSelectBarang" style="cursor:pointer" class="form-control" required></select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Satuan Barang</label>
+              <div class="input-group">
+                <input type="text" name="satuan_barang" id="editSatuanBarang" class="form-control" readonly>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-9">
+                <label>Jumlah Barang</label>
+                <div class="input-group">
+                  <input name="jumlah_barang" id="editJmlBarang" min="1" max="250" type="number" class="form-control" required />
+                </div>
+                <i>
+                  <span id="editSpanBatasStok"></span>
+                </i>
+                <input type="hidden" id="editHiddenBatasStok">
+              </div>
+              <div class="form-group col-3">
+                <label>Stok</label>
+                <div class="input-group">
+                  <input id="editStokBarang" value="0" min="1" max="250" type="number" class="form-control" readonly />
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Tgl Update Pengajuan</label>
+              <div class="input-group"> <?php 
+                      $tz = 'Asia/Makassar';
+                      $dt = new DateTime("now", new DateTimeZone($tz));
+                      $time_entry = $dt->format('Y-m-d G:i:s');                    
+                      ?> 
+                      <input name="tgl_pengajuan" value="<?php echo $time_entry;?>" type="text" readonly class="form-control" />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn bg-gradient-success" type="submit"> Simpan </button>
+              <button type="reset" class="btn bg-gradient-danger" data-dismiss="modal" aria-hidden="true"> Batal </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Barang-->
+  <div class="modal fade" id="deletePengajuanModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Delete</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid"> 
+            Apakah anda yakin <b>"HAPUS"</b>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <form action="pengajuan-delete.php" enctype="multipart/form-data" method="POST">
+            <input type="hidden" name="id_pengajuan_delete" id="deleteIdPengajuan">
+            <button type="button" class="btn btn-default" data-dismiss="modal"> Batal</button>
+            <button type="submit" class="btn btn-success"> Hapus </but>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -390,6 +483,129 @@ include "../config_sqli.php";
     });
   });
 
+  function deletePengajuan(id) {
+    $("#deletePengajuanModal").modal('show');   
+    $("#deleteIdPengajuan").val(id);
+  }
+
+  function editPengajuan(id) {
+    $.ajax({
+          url: 'user_query/pengajuan/select_detail_pengajuan.php', // PHP file to fetch data from
+          type: 'POST',
+          data: { id: id },
+          success: function(resEdit) {
+            console.log(resEdit);
+
+            $("#editPengajuanModal").modal('show');   
+
+            $('#editIdPengajuan').val(resEdit.id);
+            $('#editSatuanBarang').val(resEdit.satuan_barang);
+            $('#editJmlBarang').val(resEdit.jumlah_barang);
+            $('#editProsesPengajuan').val(resEdit.progress_pengajuan);
+            
+            // edit select barang
+            $.ajax({
+              url: 'user_query/pengajuan/select_barang.php', // PHP file to fetch data from
+              type: 'GET',
+              success: function(res) {
+                var select = $('#editSelectBarang');
+                select.empty(); // Clear existing options
+
+                  // Add new options
+                  select.append('<option value="'+resEdit.nama_barang+'">'+resEdit.nama_barang+'</option>');
+                  $.each(res, function(index, value) {
+                      select.append('<option value="' + value.nama_barang + '">' + value.nama_barang + '</option>');
+                  });
+              },
+              error: function(xhr, status, error) {
+                  console.error('Error fetching options:', error);
+              }
+            });
+
+            // edit select satuan stok
+            $.ajax({
+                url: 'user_query/pengajuan/select_barang_detail.php', // PHP file to fetch data from
+                type: 'POST',
+                data: { selectedBarang: resEdit.nama_barang },
+                success: function(res) {
+                    $('#editSatuanBarang').val(res.satuan_barang);
+                    $('#editStokBarang').val(res.stok_barang);
+                    $('#editHiddenBatasStok').val(res.total_count);
+                    $('#editSpanBatasStok').html("Bulan ini sudah <b>"+res.total_count+" "+res.satuan_barang+"</b> dari 25 " + res.satuan_barang);
+                    
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching options:', error);
+                }
+            });
+
+          },
+          error: function(xhr, status, error) {
+              console.error('Error fetching options:', error);
+          }
+      });
+  }
+
+  $('#editJmlBarang').keyup(function() {
+    console.log('jalan');
+      var value = $(this).val().trim();
+      var stok = $('#editStokBarang').val().trim();
+      var countBatasStok = $('#editHiddenBatasStok').val().trim();
+
+      totalStokBulanan = (parseInt(value, 10) + parseInt(countBatasStok, 10));
+      if(parseInt(value, 10) > parseInt(stok, 10) || totalStokBulanan > parseInt(stok, 10)) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3500
+        });
+
+        Toast.fire({
+          icon: 'error',
+          title: 'Jumlah melebihi stok'
+        })
+
+        $('#editJmlBarang').val('');
+
+      }else if(totalStokBulanan > 25) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3500
+        });
+
+        Toast.fire({
+          icon: 'error',
+          title: 'Jumlah melebihi Batas Pengajuan bulanan'
+        })
+
+        $('#editJmlBarang').val('');
+      }
+  });
+
+  $('#editSelectBarang').on('change', function() {
+      var selectedBarang = $(this).val();
+
+      console.log(selectedBarang);
+      $.ajax({
+          url: 'user_query/pengajuan/select_barang_detail.php', // PHP file to fetch data from
+          type: 'POST',
+          data: { selectedBarang: selectedBarang },
+          success: function(res) {
+              $('#editSatuanBarang').val(res.satuan_barang);
+              $('#editStokBarang').val(res.stok_barang);
+              $('#editHiddenBatasStok').val(res.total_count);
+              $('#editSpanBatasStok').html("Bulan ini sudah <b>"+res.total_count+" "+res.satuan_barang+"</b> dari 25 " + res.satuan_barang);
+              
+          },
+          error: function(xhr, status, error) {
+              console.error('Error fetching options:', error);
+          }
+      });
+  });
+
   function fetchSelectBarang() {
       $.ajax({
           url: 'user_query/pengajuan/select_barang.php', // PHP file to fetch data from
@@ -413,13 +629,11 @@ include "../config_sqli.php";
   $('#selectBarang').on('change', function() {
       var selectedBarang = $(this).val();
 
-      console.log(selectedBarang);
       $.ajax({
           url: 'user_query/pengajuan/select_barang_detail.php', // PHP file to fetch data from
           type: 'POST',
           data: { selectedBarang: selectedBarang },
           success: function(res) {
-            console.log(res);
               $('#satuanBarang').val(res.satuan_barang);
               $('#stokBarang').val(res.stok_barang);
               $('#hiddenBatasStok').val(res.total_count);

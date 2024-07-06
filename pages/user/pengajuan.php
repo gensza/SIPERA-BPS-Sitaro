@@ -275,34 +275,34 @@ include "../config_sqli.php";
 					<div class="modal-body">
 						<form action="pengajuan-add.php" enctype="multipart/form-data" method="POST">
 							<div class="form-group">
-								<label>Nama Barang</label>
+								<label>Pilih Barang</label>
 									<div class="input-group">
-										<input name="nama_barang" required type="text" class="form-control"/>
+                    <select name="nama_barang" id="selectBarang" style="cursor:pointer" class="form-control" required>
+                  </select>
 									</div>
 							</div>
               <div class="form-group">
 								<label>Satuan Barang</label>
 									<div class="input-group">
-                  <select required name="satuan_barang" style="cursor:pointer" class="form-control">
-                    <?php
-                    include "../config_sqli.php";
-                    $query3 = mysqli_query($konek, "SELECT * FROM `satuan` ORDER BY `id` ASC");
-                    while ($rowz = mysqli_fetch_array($query3)) {
-                    ?>
-                    <option value="<?=$rowz['nama_satuan'];?>"><?php echo $rowz['nama_satuan'];?></option>
-                    <?php
-                    }
-                    ?>
-                  </select>
-
+                    <input type="text" name="satuan_barang" id="satuanBarang" class="form-control" readonly>
 									</div>
 							</div>
-							<div class="form-group">
-								<label>Jumlah Barang</label>
-									<div class="input-group">
-										<input name="jumlah_barang" value="0" min="1" max="250" type="number" class="form-control"/>
-									</div>
-							</div>
+							<div class="row">
+                <div class="form-group col-9">
+                    <label>Jumlah Barang</label>
+                    <div class="input-group">
+                      <input name="jumlah_barang" id="jmlBarang" min="1" max="250" type="number" class="form-control" required/>
+                    </div>
+                    <i><span id="spanBatasStok"></span></i>
+                    <input type="hidden" id="hiddenBatasStok">
+                </div>
+                <div class="form-group col-3">
+                    <label>Stok</label>
+                    <div class="input-group">
+                      <input id="stokBarang" value="0" min="1" max="250" type="number" class="form-control" readonly/>
+                    </div>
+                </div>
+              </div>
               <div class="form-group">
 								<label>Tgl Pengajuan</label>
 									<div class="input-group">
@@ -373,6 +373,8 @@ include "../config_sqli.php";
 
 <script>
   $(function () {
+    fetchSelectBarang();
+
     $("#example1").DataTable({
       "responsive": true, "lengthChange": false, "autoWidth": true,
       "buttons": ["copy", "csv", "excel", "pdf", "print" , "colvis"]
@@ -387,6 +389,87 @@ include "../config_sqli.php";
       "responsive": true,
     });
   });
+
+  function fetchSelectBarang() {
+      $.ajax({
+          url: 'user_query/pengajuan/select_barang.php', // PHP file to fetch data from
+          type: 'GET',
+          success: function(res) {
+              var select = $('#selectBarang');
+              select.empty(); // Clear existing options
+
+              // Add new options
+              select.append('<option value="">-- Pilih --</option>');
+              $.each(res, function(index, value) {
+                  select.append('<option value="' + value.nama_barang + '">' + value.nama_barang + '</option>');
+              });
+          },
+          error: function(xhr, status, error) {
+              console.error('Error fetching options:', error);
+          }
+      });
+  }
+
+  $('#selectBarang').on('change', function() {
+      var selectedBarang = $(this).val();
+
+      console.log(selectedBarang);
+      $.ajax({
+          url: 'user_query/pengajuan/select_barang_detail.php', // PHP file to fetch data from
+          type: 'POST',
+          data: { selectedBarang: selectedBarang },
+          success: function(res) {
+            console.log(res);
+              $('#satuanBarang').val(res.satuan_barang);
+              $('#stokBarang').val(res.stok_barang);
+              $('#hiddenBatasStok').val(res.total_count);
+              $('#spanBatasStok').html("Bulan ini sudah <b>"+res.total_count+" "+res.satuan_barang+"</b> dari 25 " + res.satuan_barang);
+              
+          },
+          error: function(xhr, status, error) {
+              console.error('Error fetching options:', error);
+          }
+      });
+  });
+
+  $('#jmlBarang').keyup(function() {
+      var value = $(this).val().trim();
+      var stok = $('#stokBarang').val().trim();
+      var countBatasStok = $('#hiddenBatasStok').val().trim();
+
+      totalStokBulanan = (parseInt(value, 10) + parseInt(countBatasStok, 10));
+      if(parseInt(value, 10) > parseInt(stok, 10) || totalStokBulanan > parseInt(stok, 10)) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3500
+        });
+
+        Toast.fire({
+          icon: 'error',
+          title: 'Jumlah melebihi stok'
+        })
+
+        $('#jmlBarang').val('');
+
+      }else if(totalStokBulanan > 25) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3500
+        });
+
+        Toast.fire({
+          icon: 'error',
+          title: 'Jumlah melebihi Batas Pengajuan bulanan'
+        })
+
+        $('#jmlBarang').val('');
+      }
+  });
+
 </script>
 <?php if(@$_SESSION['sukses']){ ?>
 <script>

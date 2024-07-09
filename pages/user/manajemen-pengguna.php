@@ -124,6 +124,12 @@ $pengguna=$_SESSION["username"];
                   <p>PENGAJUAN</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="pengusulan.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>PENGUSULAN</p>
+                </a>
+              </li>
             </ul>
           </li>
           <li class="nav-item active">
@@ -178,7 +184,8 @@ $pengguna=$_SESSION["username"];
           <div class="col-md-12">
           <div class="card">
               <div class="card-body">
-                <table id="example1" class="table table-hover text-nowrap">
+              <div class="table-responsive">
+                <table id="example1" class="table table-hover" width="100%">
                 <thead>
                   <tr>
                     <th>No</th>
@@ -238,6 +245,7 @@ $pengguna=$_SESSION["username"];
             							?>
                   </tbody>
                 </table>
+                </div>
               </div>
               <!-- /.card-body -->
             </div>

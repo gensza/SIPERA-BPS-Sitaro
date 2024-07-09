@@ -123,6 +123,12 @@ $nama_barang_history = $_GET["nama_barang"];
                   <p>PENGAJUAN</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="pengusulan.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>PENGUSULAN</p>
+                </a>
+              </li>
             </ul>
           </li>
           <li class="nav-item">

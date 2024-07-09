@@ -120,13 +120,13 @@ include "../config_sqli.php";
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pengajuan.php" class="nav-link active">
+                <a href="pengajuan.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>PENGAJUAN</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pengusulan.php" class="nav-link">
+                <a href="pengusulan.php" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>PENGUSULAN</p>
                 </a>
@@ -186,8 +186,8 @@ include "../config_sqli.php";
           <div class="card">
               <div class="card-header">
               <div class="card-body">
-                <a class="btn btn-app bg-info float-right" data-target="#AddPengajuan" data-toggle="modal">
-                <?php $query = mysqli_query($konek, "SELECT COUNT(*) AS JUMLAH FROM `pengajuan`");
+                <a class="btn btn-app bg-info float-right" data-target="#AddPengusulan" data-toggle="modal">
+                <?php $query = mysqli_query($konek, "SELECT COUNT(*) AS JUMLAH FROM `pengusulan`");
                                                     if($query == false){
                                                         die ("Terjadi Kesalahan : ". mysqli_error($konek));
                                                             }
@@ -200,7 +200,7 @@ include "../config_sqli.php";
                   
                                                     
                                                     
-                  <i class="fas fa-plus"></i> Pengajuan Barang
+                  <i class="fas fa-plus"></i> Pengusulan Barang
                 </a>
               </div>
               </div>
@@ -214,8 +214,8 @@ include "../config_sqli.php";
                     <th>Nama Barang</th>
                     <th>Satuan Barang</th>
                     <th>Jumlah Barang</th>
-                    <th>Tgl Pengajuan</th>
-                    <th>Nama Pengajuan</th>
+                    <th>Tgl Pengusulan</th>
+                    <th>Nama Pengusulan</th>
                     <th style="text-align: center;">Status</th>
                     <th>Aksi</th>
                   </tr>
@@ -223,7 +223,7 @@ include "../config_sqli.php";
                   <tbody>
                   <?php
             			 				include "../config_sqli.php";
-            							$query=mysqli_query($konek,"SELECT * FROM `pengajuan` WHERE `nama_pengajuan`='$nama_lgkp' ORDER BY `id` DESC");
+            							$query=mysqli_query($konek,"SELECT * FROM `pengusulan` WHERE `nama_Pengusulan`='$nama_lgkp' ORDER BY `id` DESC");
             							$no = 1;
                           while($row=mysqli_fetch_array($query)){
                     ?>
@@ -233,27 +233,27 @@ include "../config_sqli.php";
                     <td><?php echo $row['nama_barang']; ?></td>
                     <td><?php echo $row['satuan_barang']; ?></td>
                     <td><?php echo $row['jumlah_barang']; ?></td>
-                    <td><?php echo $row['tgl_pengajuan']; ?></td>
-                    <td><?php echo $row['nama_pengajuan']; ?></td>
-                    <td style="text-align: center;"><?php if ($row['progress_pengajuan']=='1'){
+                    <td><?php echo $row['tgl_pengusulan']; ?></td>
+                    <td><?php echo $row['nama_pengusulan']; ?></td>
+                    <td style="text-align: center;"><?php if ($row['progress_pengusulan']=='1'){
                       echo "<span class='badge bg-success'> DISETUJUI";
-                    }elseif ($row['progress_pengajuan']=='2'){
+                    }elseif ($row['progress_pengusulan']=='2'){
                       echo "<span class='badge bg-danger'> DITOLAK";
                     }else{
-                      echo "<span class='badge bg-warning'> DIAJUKAN";
+                      echo "<span class='badge bg-warning'> DIUSULKAN";
                     } ?>
                     </td>
                     <td class="row">
-                      <a class="btn btn-info btn-sm" onclick="editPengajuan(<?php echo $row['id']; ?>)">
+                      <a class="btn btn-info btn-sm" onclick="editPengusulan(<?php echo $row['id']; ?>)">
                                 <i class="fas fa-pencil-alt">
                                 </i>
                       </a>&nbsp;
-                      <a class="btn btn-danger btn-sm" onclick="deletePengajuan(<?php echo $row['id']; ?>)">
+                      <a class="btn btn-danger btn-sm" onclick="deletePengusulan(<?php echo $row['id']; ?>)">
                                 <i class="fas fa-trash">
                                 </i>
                       </a>
                     </td>
-                    <?php include "button-pengajuan-approved.php"; ?>
+                    <?php include "button-pengusulan-approved.php"; ?>
                     
 
                  </tr>
@@ -284,15 +284,15 @@ include "../config_sqli.php";
     </div>
   </footer>
 
-    <div id="AddPengajuan" class="modal fade" tabindex="-1" role="dialog">
+    <div id="AddPengusulan" class="modal fade" tabindex="-1" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
         <div class="modal-header">
-        <h4 class="modal-title">Pengajuan Barang</h4>
+        <h4 class="modal-title">Pengusulan Barang</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
 					<div class="modal-body">
-						<form action="pengajuan-add.php" enctype="multipart/form-data" method="POST">
+						<form action="pengusulan-add.php" enctype="multipart/form-data" method="POST">
 							<div class="form-group">
 								<label>Pilih Barang</label>
 									<div class="input-group">
@@ -323,14 +323,14 @@ include "../config_sqli.php";
                 </div>
               </div>
               <div class="form-group">
-								<label>Tgl Pengajuan</label>
+								<label>Tgl Pengusulan</label>
 									<div class="input-group">
                     <?php 
                     $tz = 'Asia/Makassar';
                     $dt = new DateTime("now", new DateTimeZone($tz));
                     $time_entry = $dt->format('Y-m-d G:i:s');                    
                     ?>
-										<input name="tgl_pengajuan" value="<?php echo $time_entry;?>" type="text" readonly class="form-control"/>
+										<input name="tgl_pengusulan" value="<?php echo $time_entry;?>" type="text" readonly class="form-control"/>
 									</div>
 							</div>
 						  
@@ -351,17 +351,17 @@ include "../config_sqli.php";
   </div>
 </div>
 
-  <div id="editPengajuanModal" class="modal fade" tabindex="-1" role="dialog">
+  <div id="editPengusulanModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Edit Pengajuan Barang</h4>
+          <h4 class="modal-title">Edit Pengusulan Barang</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
-          <form action="pengajuan-edit.php" enctype="multipart/form-data" method="POST">
-            <input type="hidden" name="id_pengajuan" id="editIdPengajuan">
-            <input type="hidden" name="proses_pengajuan" id="editProsesPengajuan">
+          <form action="pengusulan-edit.php" enctype="multipart/form-data" method="POST">
+            <input type="hidden" name="id_pengusulan" id="editIdPengusulan">
+            <input type="hidden" name="proses_pengusulan" id="editProsesPengusulan">
             <div class="form-group">
               <label>Pilih Barang</label>
               <div class="input-group">
@@ -393,13 +393,13 @@ include "../config_sqli.php";
               </div>
             </div>
             <div class="form-group">
-              <label>Tgl Update Pengajuan</label>
+              <label>Tgl Update Pengusulan</label>
               <div class="input-group"> <?php 
                       $tz = 'Asia/Makassar';
                       $dt = new DateTime("now", new DateTimeZone($tz));
                       $time_entry = $dt->format('Y-m-d G:i:s');                    
                       ?> 
-                      <input name="tgl_pengajuan" value="<?php echo $time_entry;?>" type="text" readonly class="form-control" />
+                      <input name="tgl_pengusulan" value="<?php echo $time_entry;?>" type="text" readonly class="form-control" />
               </div>
             </div>
             <div class="modal-footer">
@@ -413,7 +413,7 @@ include "../config_sqli.php";
   </div>
 
   <!-- Delete Barang-->
-  <div class="modal fade" id="deletePengajuanModal">
+  <div class="modal fade" id="deletePengusulanModal">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -426,8 +426,8 @@ include "../config_sqli.php";
           </div>
         </div>
         <div class="modal-footer">
-          <form action="pengajuan-delete.php" enctype="multipart/form-data" method="POST">
-            <input type="hidden" name="id_pengajuan_delete" id="deleteIdPengajuan">
+          <form action="pengusulan-delete.php" enctype="multipart/form-data" method="POST">
+            <input type="hidden" name="id_pengusulan_delete" id="deleteIdPengusulan">
             <button type="button" class="btn btn-default" data-dismiss="modal"> Batal</button>
             <button type="submit" class="btn btn-success"> Hapus </but>
           </form>
@@ -489,29 +489,29 @@ include "../config_sqli.php";
     });
   });
 
-  function deletePengajuan(id) {
-    $("#deletePengajuanModal").modal('show');   
-    $("#deleteIdPengajuan").val(id);
+  function deletePengusulan(id) {
+    $("#deletePengusulanModal").modal('show');   
+    $("#deleteIdPengusulan").val(id);
   }
 
-  function editPengajuan(id) {
+  function editPengusulan(id) {
     $.ajax({
-          url: 'user_query/pengajuan/select_detail_pengajuan.php', // PHP file to fetch data from
+          url: 'user_query/pengusulan/select_detail_pengusulan.php', // PHP file to fetch data from
           type: 'POST',
           data: { id: id },
           success: function(resEdit) {
             console.log(resEdit);
 
-            $("#editPengajuanModal").modal('show');   
+            $("#editPengusulanModal").modal('show');   
 
-            $('#editIdPengajuan').val(resEdit.id);
+            $('#editIdPengusulan').val(resEdit.id);
             $('#editSatuanBarang').val(resEdit.satuan_barang);
             $('#editJmlBarang').val(resEdit.jumlah_barang);
-            $('#editProsesPengajuan').val(resEdit.progress_pengajuan);
+            $('#editProsesPengusulan').val(resEdit.progress_pengusulan);
             
             // edit select barang
             $.ajax({
-              url: 'user_query/pengajuan/select_barang.php', // PHP file to fetch data from
+              url: 'user_query/pengusulan/select_barang.php', // PHP file to fetch data from
               type: 'GET',
               success: function(res) {
                 var select = $('#editSelectBarang');
@@ -530,7 +530,7 @@ include "../config_sqli.php";
 
             // edit select satuan stok
             $.ajax({
-                url: 'user_query/pengajuan/select_barang_detail.php', // PHP file to fetch data from
+                url: 'user_query/pengusulan/select_barang_detail.php', // PHP file to fetch data from
                 type: 'POST',
                 data: { selectedBarang: resEdit.nama_barang },
                 success: function(res) {
@@ -584,7 +584,7 @@ include "../config_sqli.php";
 
         Toast.fire({
           icon: 'error',
-          title: 'Jumlah melebihi Batas Pengajuan bulanan'
+          title: 'Jumlah melebihi Batas Pengusulan bulanan'
         })
 
         $('#editJmlBarang').val('');
@@ -596,7 +596,7 @@ include "../config_sqli.php";
 
       console.log(selectedBarang);
       $.ajax({
-          url: 'user_query/pengajuan/select_barang_detail.php', // PHP file to fetch data from
+          url: 'user_query/pengusulan/select_barang_detail.php', // PHP file to fetch data from
           type: 'POST',
           data: { selectedBarang: selectedBarang },
           success: function(res) {
@@ -614,7 +614,7 @@ include "../config_sqli.php";
 
   function fetchSelectBarang() {
       $.ajax({
-          url: 'user_query/pengajuan/select_barang.php', // PHP file to fetch data from
+          url: 'user_query/pengusulan/select_barang.php', // PHP file to fetch data from
           type: 'GET',
           success: function(res) {
               var select = $('#selectBarang');
@@ -636,7 +636,7 @@ include "../config_sqli.php";
       var selectedBarang = $(this).val();
 
       $.ajax({
-          url: 'user_query/pengajuan/select_barang_detail.php', // PHP file to fetch data from
+          url: 'user_query/pengusulan/select_barang_detail.php', // PHP file to fetch data from
           type: 'POST',
           data: { selectedBarang: selectedBarang },
           success: function(res) {
@@ -683,7 +683,7 @@ include "../config_sqli.php";
 
         Toast.fire({
           icon: 'error',
-          title: 'Jumlah melebihi Batas Pengajuan bulanan'
+          title: 'Jumlah melebihi Batas Pengusulan bulanan'
         })
 
         $('#jmlBarang').val('');

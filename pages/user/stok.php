@@ -125,6 +125,12 @@ include "../config_sqli.php";
                   <p>PENGAJUAN</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="pengusulan.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>PENGUSULAN</p>
+                </a>
+              </li>
             </ul>
           </li>
           <li class="nav-item">
@@ -179,7 +185,8 @@ include "../config_sqli.php";
           <div class="col-md-12">
           <div class="card">
               <div class="card-body">
-                <table id="example1" class="table table-hover text-nowrap">
+                <div class="table-responsive">
+                <table id="example1" class="table table-hover" width="100%">
                 <thead>
                   <tr>
                     <th>No</th>
@@ -188,7 +195,7 @@ include "../config_sqli.php";
                     <th>Stok</th>
                     <th>Operator Entry</th>
                     <th style="text-align: center;">Photo Barang</th>
-                    <th style="text-align: center;">Aksi</th>
+                    <th style="text-align: center;width: 18%">Aksi</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -206,12 +213,12 @@ include "../config_sqli.php";
                     <td><?php echo $row['stok_barang']; ?></td>
                     <td><?php echo $row['pengguna']; ?></td>
                     <td align='center'><a href="#see<?php echo $row['id']; ?>" data-toggle="modal" title="click to see"> <span class="fa fa-eye"></span> </a></td>
-                    <td style="text-align: center;">
+                    <td style="text-align: center;" class="row">
                     <a class="btn btn-primary btn-sm" href="#kelola<?php echo $row['id']; ?>" data-toggle="modal" >
                               <i class="fas fa-folder">
                               </i>
                               Kelola
-                    </a>
+                    </a>&nbsp;
                     <a class="btn btn-warning btn-sm" href="history-per-stok.php?nama_barang=<?php echo $row['nama_barang']; ?>" >
                               <i class="fas fa-redo">
                               </i>
@@ -231,6 +238,7 @@ include "../config_sqli.php";
             							?>
                   </tbody>
                 </table>
+                </div>
               </div>
               <!-- /.card-body -->
             </div>

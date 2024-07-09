@@ -120,13 +120,13 @@ include "../config_sqli.php";
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pengajuan.php" class="nav-link active">
+                <a href="pengajuan.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>PENGAJUAN</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pengusulan.php" class="nav-link">
+                <a href="pengusulan.php" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>PENGUSULAN</p>
                 </a>
@@ -186,8 +186,8 @@ include "../config_sqli.php";
           <div class="card">
               <div class="card-header">
               <div class="card-body">
-                <a class="btn btn-app bg-info float-right" data-target="#AddPengajuan" data-toggle="modal">
-                <?php $query = mysqli_query($konek, "SELECT COUNT(*) AS JUMLAH FROM `pengajuan`");
+                <a class="btn btn-app bg-info float-right" data-target="#AddPengusulan" data-toggle="modal">
+                <?php $query = mysqli_query($konek, "SELECT COUNT(*) AS JUMLAH FROM `pengusulan`");
                                                     if($query == false){
                                                         die ("Terjadi Kesalahan : ". mysqli_error($konek));
                                                             }
@@ -200,7 +200,7 @@ include "../config_sqli.php";
                   
                                                     
                                                     
-                  <i class="fas fa-plus"></i> Pengajuan Barang
+                  <i class="fas fa-plus"></i> Pengusulan Barang
                 </a>
               </div>
               </div>
@@ -214,16 +214,16 @@ include "../config_sqli.php";
                     <th>Nama Barang</th>
                     <th>Satuan Barang</th>
                     <th>Jumlah Barang</th>
-                    <th>Tgl Pengajuan</th>
-                    <th>Nama Pengajuan</th>
+                    <th>Tgl Pengusulan</th>
+                    <th>Nama Pengusulan</th>
                     <th>Status</th>
-                    <th style="text-align: center;">Aksi</th>
+                    <th style="text-align: center;width: 210px">Aksi</th>
                   </tr>
                   </thead>
                   <tbody>
                   <?php
             			 				include "../config_sqli.php";
-            							$query=mysqli_query($konek,"SELECT * FROM `pengajuan` ORDER BY `id` DESC");
+            							$query=mysqli_query($konek,"SELECT * FROM `pengusulan` ORDER BY `id` DESC");
             							$no = 1;
                           while($row=mysqli_fetch_array($query)){
                     ?>
@@ -233,11 +233,11 @@ include "../config_sqli.php";
                     <td><?php echo $row['nama_barang']; ?></td>
                     <td><?php echo $row['satuan_barang']; ?></td>
                     <td><?php echo $row['jumlah_barang']; ?></td>
-                    <td><?php echo $row['tgl_pengajuan']; ?></td>
-                    <td><?php echo $row['nama_pengajuan']; ?></td>
-                    <td><?php if ($row['progress_pengajuan']=='1'){
+                    <td><?php echo $row['tgl_pengusulan']; ?></td>
+                    <td><?php echo $row['nama_pengusulan']; ?></td>
+                    <td><?php if ($row['progress_pengusulan']=='1'){
                       echo "<span class='badge bg-success'> DISETUJUI";
-                    }elseif ($row['progress_pengajuan']=='2'){
+                    }elseif ($row['progress_pengusulan']=='2'){
                       echo "<span class='badge bg-danger'> DITOLAK";
                     }else{
                       echo "<span class='badge bg-warning'> DIAJUKAN";
@@ -245,18 +245,18 @@ include "../config_sqli.php";
                     </td>
 
                     <td style="text-align: center;">
-                    <a class="btn btn-primary btn-sm" href="#setujuiPengajuan<?php echo $row['id']; ?>" data-toggle="modal" >
+                    <a class="btn btn-primary btn-sm" href="#setujuiPengusulan<?php echo $row['id']; ?>" data-toggle="modal" >
                               <i class="fas fa-calendar-check">
                               </i>
                               Approved
                     </a>
-                    <a class="btn btn-danger btn-sm" href="#rejectPengajuan<?php echo $row['id']; ?>" data-toggle="modal" >
+                    <a class="btn btn-danger btn-sm" href="#rejectPengusulan<?php echo $row['id']; ?>" data-toggle="modal" >
                               <i class="fas  fa-calendar-times">
                               </i>
                               Rejected
                     </a>
                     </td>
-                    <?php include "button-pengajuan-approved.php"; ?>
+                    <?php include "button-pengusulan-approved.php"; ?>
                     
 
                  </tr>
@@ -287,15 +287,15 @@ include "../config_sqli.php";
     </div>
   </footer>
 
-  <div id="AddPengajuan" class="modal fade" tabindex="-1" role="dialog">
+  <div id="AddPengusulan" class="modal fade" tabindex="-1" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">
         <div class="modal-header">
-        <h4 class="modal-title">Pengajuan Barang</h4>
+        <h4 class="modal-title">Pengusulan Barang</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
 					<div class="modal-body">
-						<form action="pengajuan-add.php" enctype="multipart/form-data" method="POST">
+						<form action="pengusulan-add.php" enctype="multipart/form-data" method="POST">
 							<div class="form-group">
 								<label>Nama Barang</label>
 									<div class="input-group">
@@ -326,14 +326,14 @@ include "../config_sqli.php";
                 </div>
               </div>
               <div class="form-group">
-								<label>Tgl Pengajuan</label>
+								<label>Tgl Pengusulan</label>
 									<div class="input-group">
                     <?php 
                     $tz = 'Asia/Makassar';
                     $dt = new DateTime("now", new DateTimeZone($tz));
                     $time_entry = $dt->format('Y-m-d G:i:s');                    
                     ?>
-										<input name="tgl_pengajuan" value="<?php echo $time_entry;?>" type="text" readonly class="form-control"/>
+										<input name="tgl_pengusulan" value="<?php echo $time_entry;?>" type="text" readonly class="form-control"/>
 									</div>
 							</div>
 						  
@@ -414,7 +414,7 @@ include "../config_sqli.php";
 
   function fetchSelectBarang() {
       $.ajax({
-          url: 'user_query/pengajuan/select_barang.php', // PHP file to fetch data from
+          url: 'user_query/pengusulan/select_barang.php', // PHP file to fetch data from
           type: 'GET',
           success: function(res) {
               var select = $('#selectBarang');
@@ -436,7 +436,7 @@ include "../config_sqli.php";
       var selectedBarang = $(this).val();
 
       $.ajax({
-          url: 'user_query/pengajuan/select_barang_detail.php', // PHP file to fetch data from
+          url: 'user_query/pengusulan/select_barang_detail.php', // PHP file to fetch data from
           type: 'POST',
           data: { selectedBarang: selectedBarang },
           success: function(res) {
@@ -483,7 +483,7 @@ include "../config_sqli.php";
 
         Toast.fire({
           icon: 'error',
-          title: 'Jumlah melebihi Batas Pengajuan bulanan'
+          title: 'Jumlah melebihi Batas Pengusulan bulanan'
         })
 
         $('#jmlBarang').val('');

@@ -8,6 +8,7 @@ include "../config_sqli.php";
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="../../dist/img/BPSLogo.png">
   <title>SIPERA | BPS Sitaro</title>
 
   <!-- Google Font: Source Sans Pro -->
@@ -71,7 +72,7 @@ include "../config_sqli.php";
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-        <img src="../path/<?php echo "".$_SESSION["photo"]."" ?>" class="img-circle elevation-2" alt="User Image">
+        <img src="../path/<?php echo "".$_SESSION["photo"]."" ?>" style="border-radius: 50%;height: 35px;" alt="User Image">
         </div>
         <div class="info">
         <a href="#" class="d-block"><?php echo "".$_SESSION["username"]."" ?></a>
@@ -122,6 +123,12 @@ include "../config_sqli.php";
                 <a href="pengajuan.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>PENGAJUAN</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pengusulan.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>PENGUSULAN</p>
                 </a>
               </li>
             </ul>
@@ -197,7 +204,8 @@ include "../config_sqli.php";
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="example1" class="table table-hover text-nowrap">
+                <div class="table-responsive">
+                <table id="example1" class="table table-hover" width="100%">
                 <thead>
                   <tr>
                     <th>No</th>
@@ -207,7 +215,7 @@ include "../config_sqli.php";
                     <th>Jabatan</th>
                     <th>Hak Akses</th>
                     <th style="text-align: center;">Profil</th>
-                    <th style="text-align: center;">Aksi</th>
+                    <th style="text-align: center;width: 130px">Aksi</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -224,7 +232,7 @@ include "../config_sqli.php";
                     <td><?php echo $row['username']; ?></td>
                     <td><?php echo $row['nip']; ?></td>
                     <td><?php echo $row['jabatan']; ?></td>
-                    <td><?php if ($row['flag']=='1'){
+                    <td class="row"><?php if ($row['flag']=='1'){
                       echo "<span class='badge bg-success'> ADMINISTRATOR";
                     }else{
                       echo "<span class='badge bg-primary'> USER";
@@ -235,17 +243,14 @@ include "../config_sqli.php";
                     <a class="btn btn-info btn-sm" href="#edituser<?php echo $row['id']; ?>" data-toggle="modal">
                               <i class="fas fa-pencil-alt">
                               </i>
-                              Edit
                     </a>
                     <a class="btn btn-danger btn-sm" href="#deluser<?php echo $row['id']; ?>" data-toggle="modal">
                               <i class="fas fa-trash">
                               </i>
-                              Delete
                     </a>
                     <a class="btn btn-warning btn-sm" href="#resetuser<?php echo $row['id']; ?>" data-toggle="modal">
                               <i class="fas fa-retweet">
                               </i>
-                              Reset
                     </a>
                     </td>
                     <?php include "button-reset.php"; ?>
@@ -262,6 +267,7 @@ include "../config_sqli.php";
             							?>
                   </tbody>
                 </table>
+              </div>
               </div>
               <!-- /.card-body -->
             </div>

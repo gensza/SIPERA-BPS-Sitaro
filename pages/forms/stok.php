@@ -8,6 +8,7 @@ include "../config_sqli.php";
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="../../dist/img/BPSLogo.png">
   <title>SIPERA | BPS Sitaro</title>
 
   <!-- Google Font: Source Sans Pro -->
@@ -86,7 +87,7 @@ include "../config_sqli.php";
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-        <img src="../path/<?php echo "".$_SESSION["photo"]."" ?>" class="img-circle elevation-2" alt="User Image">
+        <img src="../path/<?php echo "".$_SESSION["photo"]."" ?>" style="border-radius: 50%;height: 35px;" alt="User Image">
         </div>
         <div class="info">
         <a href="#" class="d-block"><?php echo "".$_SESSION["username"]."" ?></a>
@@ -137,6 +138,12 @@ include "../config_sqli.php";
                 <a href="pengajuan.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>PENGAJUAN</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pengusulan.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>PENGUSULAN</p>
                 </a>
               </li>
             </ul>
@@ -227,7 +234,8 @@ include "../config_sqli.php";
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="example1" class="table table-hover text-nowrap">
+                <div class="table-responsive">
+                <table id="example1" class="table table-hover" width="100%">
                 <thead>
                   <tr>
                     <th>No</th>
@@ -236,7 +244,7 @@ include "../config_sqli.php";
                     <th>Stok</th>
                     <th>Operator Entry</th>
                     <th style="text-align: center;">Photo Barang</th>
-                    <th style="text-align: center;">Aksi</th>
+                    <th style="text-align: center;width: 210px;">Aksi</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -254,27 +262,25 @@ include "../config_sqli.php";
                     <td><?php echo $row['stok_barang']; ?></td>
                     <td><?php echo $row['pengguna']; ?></td>
                     <td align='center'><a href="#see<?php echo $row['id']; ?>" data-toggle="modal" title="click to see"> <span class="fa fa-eye"></span> </a></td>
-                    <td style="text-align: center;">
+                    <td style="text-align: center;" class="row">
                     <a class="btn btn-primary btn-sm" href="#kelola<?php echo $row['id']; ?>" data-toggle="modal" >
                               <i class="fas fa-folder">
                               </i>
                               Kelola
-                    </a>
+                    </a>&nbsp;
                     <a class="btn btn-warning btn-sm" href="history-per-stok.php?nama_barang=<?php echo $row['nama_barang']; ?>" >
                               <i class="fas fa-redo">
                               </i>
                               History
-                    </a>
+                    </a>&nbsp;
                     <a class="btn btn-info btn-sm" href="#editbarang<?php echo $row['id']; ?>" data-toggle="modal">
                               <i class="fas fa-pencil-alt">
                               </i>
-                              Edit
-                    </a>
+                    </a>&nbsp;
                     <a class="btn btn-danger btn-sm" href="#delbarang<?php echo $row['id']; ?>" data-toggle="modal">
                               <i class="fas fa-trash">
                               </i>
-                              Delete
-                    </a>
+                    </a>&nbsp;
                     </td>
                     <?php include "button-edit.php"; ?>
                     <?php include "button-aksi.php"; ?>
@@ -289,6 +295,7 @@ include "../config_sqli.php";
             							?>
                   </tbody>
                 </table>
+              </div>
               </div>
               <!-- /.card-body -->
             </div>

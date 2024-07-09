@@ -43,6 +43,7 @@ if(isset ($_GET["Notif"]) && !empty ($_GET["Notif"])){
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="dist/img/BPSLogo.png">
     <title>SIPERA | BPS Sitaro</title>
 
     <!-- Google Font: Source Sans Pro -->

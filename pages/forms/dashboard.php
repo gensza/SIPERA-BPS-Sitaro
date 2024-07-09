@@ -8,6 +8,7 @@ include "../config_sqli.php";
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="../../dist/img/BPSLogo.png">
   <title>SIPERA | BPS Sitaro</title>
 
   <!-- Google Font: Source Sans Pro -->
@@ -114,6 +115,12 @@ include "../config_sqli.php";
                 <a href="pengajuan.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>PENGAJUAN</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pengusulan.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>PENGUSULAN</p>
                 </a>
               </li>
             </ul>

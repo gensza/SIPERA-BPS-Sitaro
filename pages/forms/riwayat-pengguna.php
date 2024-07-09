@@ -8,6 +8,7 @@ include "../config_sqli.php";
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="../../dist/img/BPSLogo.png">
   <title>SIPERA | BPS Sitaro</title>
 
   <!-- Google Font: Source Sans Pro -->
@@ -71,7 +72,7 @@ include "../config_sqli.php";
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-        <img src="../path/<?php echo "".$_SESSION["photo"]."" ?>" class="img-circle elevation-2" alt="User Image">
+        <img src="../path/<?php echo "".$_SESSION["photo"]."" ?>" style="border-radius: 50%;height: 35px;" alt="User Image">
         </div>
         <div class="info">
         <a href="#" class="d-block"><?php echo "".$_SESSION["username"]."" ?></a>
@@ -122,6 +123,12 @@ include "../config_sqli.php";
                 <a href="pengajuan.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>PENGAJUAN</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pengusulan.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>PENGUSULAN</p>
                 </a>
               </li>
             </ul>
@@ -182,7 +189,8 @@ include "../config_sqli.php";
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="example1" class="table table-hover text-nowrap">
+                <div class="table-responsive">
+                <table id="example1" class="table table-hover" width="100%">
                 <thead>
                   <tr>
                     <th>No</th>
@@ -223,8 +231,8 @@ include "../config_sqli.php";
                     <td align='center'><a href="#see0<?php echo $row['id']; ?>" data-toggle="modal" title="click to see"> <span class="fa fa-eye"></span> </a></td>
                     <td align='center'><?php echo $row['user']; ?></td>
                     <td style="text-align: center;">
-                    <a href="#delhistory<?php echo $row['id']; ?>" data-toggle="modal" >
-                      <span class="badge bg-danger">Delete</span>
+                    <a class="btn btn-danger btn-sm" href="#delhistory<?php echo $row['id']; ?>" data-toggle="modal" >
+                      Delete
                     </a>
                     </td>
                     <?php include "button-history.php"; ?>
@@ -235,6 +243,7 @@ include "../config_sqli.php";
             							?>
                   </tbody>
                 </table>
+              </div>
               </div>
               <!-- /.card-body -->
             </div>

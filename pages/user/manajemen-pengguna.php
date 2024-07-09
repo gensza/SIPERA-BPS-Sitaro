@@ -8,6 +8,7 @@ $pengguna=$_SESSION["username"];
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="../../dist/img/BPSLogo.png">
   <title>SIPERA | BPS Sitaro</title>
 
   <!-- Google Font: Source Sans Pro -->
@@ -71,7 +72,7 @@ $pengguna=$_SESSION["username"];
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-        <img src="../path/<?php echo "".$_SESSION["photo"]."" ?>" class="img-circle elevation-2" alt="User Image">
+        <img src="../path/<?php echo "".$_SESSION["photo"]."" ?>" style="border-radius: 50%;height: 35px;" alt="User Image">
         </div>
         <div class="info">
         <a href="#" class="d-block"><?php echo "".$_SESSION["nip"]."" ?></a>

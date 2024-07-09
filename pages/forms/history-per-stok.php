@@ -9,6 +9,7 @@ $nama_barang_history = $_GET["nama_barang"];
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="../../dist/img/BPSLogo.png">
   <title>Stok App | BPS Sangihe</title>
 
   <!-- Google Font: Source Sans Pro -->
@@ -72,7 +73,7 @@ $nama_barang_history = $_GET["nama_barang"];
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-        <img src="../path/<?php echo "".$_SESSION["photo"]."" ?>" class="img-circle elevation-2" alt="User Image">
+        <img src="../path/<?php echo "".$_SESSION["photo"]."" ?>" style="border-radius: 50%;height: 35px;" alt="User Image">
         </div>
         <div class="info">
         <a href="#" class="d-block"><?php echo "".$_SESSION["username"]."" ?></a>
@@ -123,6 +124,12 @@ $nama_barang_history = $_GET["nama_barang"];
                 <a href="pengajuan.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>PENGAJUAN</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pengusulan.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>PENGUSULAN</p>
                 </a>
               </li>
             </ul>

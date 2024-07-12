@@ -72,8 +72,8 @@ include "../config_sqli.php";
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-        <img src="../path/<?php echo "".$_SESSION["photo"]."" ?>" style="border-radius: 50%;height: 35px;" alt="User Image">
-        </div>
+        <img src="../path/<?php echo "".$_SESSION["photo"]."" ?>" class="img-circle elevation-2" alt="User Image">
+      </div>
         <div class="info">
         <a href="#" class="d-block"><?php echo "".$_SESSION["username"]."" ?></a>
         </div>
@@ -232,7 +232,18 @@ include "../config_sqli.php";
                     <td><?php echo $no; ?></td>
                     <td><?php echo $row['nama_barang']; ?></td>
                     <td><?php echo $row['satuan_barang']; ?></td>
-                    <td><?php echo $row['jumlah_barang']; ?></td>
+                    <td>
+                      <?php echo $row['jumlah_barang']; ?>
+                      <?php 
+                      $query2 = mysqli_query($konek, "SELECT id, (SELECT SUM(jumlah_barang) FROM pengajuan WHERE nama_barang = '".$row['nama_barang']."' AND MONTH(tgl_pengajuan) = MONTH(CURDATE()) AND YEAR(tgl_pengajuan) = YEAR(CURDATE()) ) AS total_count FROM pengajuan WHERE nama_barang = '".$row['nama_barang']."' ORDER BY id DESC LIMIT 1");
+                      $row2 = mysqli_fetch_assoc($query2);
+                      $total_count = $row2['total_count'];
+                      $id_count = $row2['id'];
+                      if($total_count > 25 && $id_count == $row['id']){
+                        echo " <span class='badge bg-warning badge-sm'> melebihi batas pengajuan</span>";
+                      }
+                      ?>
+                    </td>
                     <td><?php echo $row['tgl_pengajuan']; ?></td>
                     <td><?php echo $row['nama_pengajuan']; ?></td>
                     <td><?php if ($row['progress_pengajuan']=='1'){

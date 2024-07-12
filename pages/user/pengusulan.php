@@ -233,7 +233,18 @@ include "../config_sqli.php";
                     <td><?php echo $no; ?></td>
                     <td><?php echo $row['nama_barang']; ?></td>
                     <td><?php echo $row['satuan_barang']; ?></td>
-                    <td><?php echo $row['jumlah_barang']; ?></td>
+                    <td>
+                      <?php echo $row['jumlah_barang']; ?>
+                      <?php 
+                      $query2 = mysqli_query($konek, "SELECT id, (SELECT SUM(jumlah_barang) FROM pengusulan WHERE nama_barang = '".$row['nama_barang']."' AND MONTH(tgl_pengusulan) = MONTH(CURDATE()) AND YEAR(tgl_pengusulan) = YEAR(CURDATE()) ) AS total_count FROM pengusulan WHERE nama_barang = '".$row['nama_barang']."' ORDER BY id DESC LIMIT 1");
+                      $row2 = mysqli_fetch_assoc($query2);
+                      $total_count = $row2['total_count'];
+                      $id_count = $row2['id'];
+                      if($total_count > 25 && $id_count == $row['id']){
+                        echo " <span class='badge bg-warning badge-sm'> melebihi batas pengusulan</span>";
+                      }
+                      ?>
+                    </td>
                     <td><?php echo $row['tgl_pengusulan']; ?></td>
                     <td><?php echo $row['nama_pengusulan']; ?></td>
                     <td style="text-align: center;"><?php if ($row['progress_pengusulan']=='1'){

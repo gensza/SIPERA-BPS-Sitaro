@@ -3,7 +3,6 @@
 $pengguna=$_SESSION["nama_lgkp"];
 ?>
 
-<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

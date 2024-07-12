@@ -233,7 +233,18 @@ include "../config_sqli.php";
                     <td><?php echo $no; ?></td>
                     <td><?php echo $row['nama_barang']; ?></td>
                     <td><?php echo $row['satuan_barang']; ?></td>
-                    <td><?php echo $row['jumlah_barang']; ?></td>
+                    <td>
+                      <?php echo $row['jumlah_barang']; ?>
+                      <?php 
+                      $query2 = mysqli_query($konek, "SELECT id, (SELECT SUM(jumlah_barang) FROM pengajuan WHERE nama_barang = '".$row['nama_barang']."' AND MONTH(tgl_pengajuan) = MONTH(CURDATE()) AND YEAR(tgl_pengajuan) = YEAR(CURDATE()) ) AS total_count FROM pengajuan WHERE nama_barang = '".$row['nama_barang']."' ORDER BY id DESC LIMIT 1");
+                      $row2 = mysqli_fetch_assoc($query2);
+                      $total_count = $row2['total_count'];
+                      $id_count = $row2['id'];
+                      if($total_count > 25 && $id_count == $row['id']){
+                        echo " <span class='badge bg-warning badge-sm'> melebihi batas pengajuan</span>";
+                      }
+                      ?>
+                    </td>
                     <td><?php echo $row['tgl_pengajuan']; ?></td>
                     <td><?php echo $row['nama_pengajuan']; ?></td>
                     <td style="text-align: center;"><?php if ($row['progress_pengajuan']=='1'){
@@ -501,7 +512,6 @@ include "../config_sqli.php";
           type: 'POST',
           data: { id: id },
           success: function(resEdit) {
-            console.log(resEdit);
 
             $("#editPengajuanModal").modal('show');   
 
@@ -554,7 +564,6 @@ include "../config_sqli.php";
   }
 
   $('#editJmlBarang').keyup(function() {
-    console.log('jalan');
       var value = $(this).val().trim();
       var stok = $('#editStokBarang').val().trim();
       var countBatasStok = $('#editHiddenBatasStok').val().trim();
@@ -595,7 +604,6 @@ include "../config_sqli.php";
   $('#editSelectBarang').on('change', function() {
       var selectedBarang = $(this).val();
 
-      console.log(selectedBarang);
       $.ajax({
           url: 'user_query/pengajuan/select_barang_detail.php', // PHP file to fetch data from
           type: 'POST',

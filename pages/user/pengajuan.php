@@ -73,7 +73,7 @@ include "../config_sqli.php";
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-        <img src="../path/<?php echo "".$_SESSION["photo"]."" ?>" style="border-radius: 50%;height: 35px;" alt="User Image">
+        <img src="../path/<?php echo "".$_SESSION["photo"]."" ?>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
         <a href="#" class="d-block"><?php echo "".$_SESSION["username"]."" ?></a>
@@ -548,7 +548,8 @@ include "../config_sqli.php";
                     $('#editSatuanBarang').val(res.satuan_barang);
                     $('#editStokBarang').val(res.stok_barang);
                     $('#editHiddenBatasStok').val(res.total_count);
-                    $('#editSpanBatasStok').html("Bulan ini sudah <b>"+res.total_count+" "+res.satuan_barang+"</b> dari 25 " + res.satuan_barang);
+                    var total_count = res.total_count ? res.total_count : "0";
+                    $('#editSpanBatasStok').html("Bulan ini sudah <b>"+total_count+" "+res.satuan_barang+"</b> dari 25 " + res.satuan_barang);
                     
                 },
                 error: function(xhr, status, error) {
@@ -612,7 +613,8 @@ include "../config_sqli.php";
               $('#editSatuanBarang').val(res.satuan_barang);
               $('#editStokBarang').val(res.stok_barang);
               $('#editHiddenBatasStok').val(res.total_count);
-              $('#editSpanBatasStok').html("Bulan ini sudah <b>"+res.total_count+" "+res.satuan_barang+"</b> dari 25 " + res.satuan_barang);
+              var total_count = res.total_count ? res.total_count : "0";
+              $('#editSpanBatasStok').html("Bulan ini sudah <b>"+total_count+" "+res.satuan_barang+"</b> dari 25 " + res.satuan_barang);
               
           },
           error: function(xhr, status, error) {
@@ -652,7 +654,8 @@ include "../config_sqli.php";
               $('#satuanBarang').val(res.satuan_barang);
               $('#stokBarang').val(res.stok_barang);
               $('#hiddenBatasStok').val(res.total_count);
-              $('#spanBatasStok').html("Bulan ini sudah <b>"+res.total_count+" "+res.satuan_barang+"</b> dari 25 " + res.satuan_barang);
+              var total_count = res.total_count ? res.total_count : "0";
+              $('#spanBatasStok').html("Bulan ini sudah <b>"+total_count+" "+res.satuan_barang+"</b> dari 25 " + res.satuan_barang);
               
           },
           error: function(xhr, status, error) {

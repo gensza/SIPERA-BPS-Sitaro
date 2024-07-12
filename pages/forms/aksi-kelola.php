@@ -27,7 +27,7 @@ $direktori = "../path/".$nama_baru;
 
 		$MAX_FILE_SIZE = 10000000;
 
-		$formatpic = array("image/jpg","image/jpeg");
+		$formatpic = array("image/jpg","image/jpeg","image/png");
 		if(!in_array($tipe_file, $formatpic)) {
 		$_SESSION["gagal"] = 'Ooops ekstensi file harus .jpg ya :)';
 		header('Location: stok.php'); 
@@ -52,7 +52,7 @@ $direktori = "../path/".$nama_baru;
 		$add=mysqli_query($konek, "INSERT INTO `history`(`nama_barang`, `satuan_barang`, `stok_barang`, `keterangan`, `j_masuk_keluar`, `photo_barang`, `time`, `user`) VALUES 
 		  ('$nama_barang', '$satuan_barang', '$total', '$keterangan', '$j_masuk_keluar', '$nama_baru', '$time_entry', '$nama_lgkp')") or die(mysqli_error($konek));
 		  
-		$sumstok = mysqli_query($konek, "UPDATE `barang` SET `stok_barang`='$total', `time_entry`='$time_entry' WHERE nama_barang='$nama_barang'");
+		$sumstok = mysqli_query($konek, "UPDATE `barang` SET `stok_barang`='$total', `time_entry`='$time_entry', `photo_barang` = '$nama_baru' WHERE nama_barang='$nama_barang'");
 		  	
 			if($add==true && $sumstok==true) {
 				$_SESSION["sukses"] = 'Data Barang Masuk Berhasil Disimpan. Terima kasih ya :)';
@@ -67,7 +67,7 @@ $direktori = "../path/".$nama_baru;
 			$add=mysqli_query($konek, "INSERT INTO `history`(`nama_barang`, `satuan_barang`, `stok_barang`, `keterangan`, `j_masuk_keluar`, `photo_barang`, `time`, `user`) VALUES 
 			('$nama_barang', '$satuan_barang', '$totalkeluar', '$keterangan', '$j_masuk_keluar', '$nama_baru', '$time_entry', '$nama_lgkp')") or die(mysqli_error($konek));
 		  	
-			  $sumstok2 = mysqli_query($konek, "UPDATE `barang` SET `stok_barang`='$totalkeluar', `time_entry`='$time_entry' WHERE nama_barang='$nama_barang'");
+			  $sumstok2 = mysqli_query($konek, "UPDATE `barang` SET `stok_barang`='$totalkeluar', `time_entry`='$time_entry', `photo_barang` = '$nama_baru' WHERE nama_barang='$nama_barang'");
 		  	
 			if($add==true && $sumstok2==true) {
 				$_SESSION["sukses"] = 'Data Barang Keluar Berhasil Disimpan. Terima kasih ya :)';

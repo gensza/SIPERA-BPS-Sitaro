@@ -111,7 +111,7 @@
 				
 					<div class="row">
 						<div class="col-lg-12">
-							<img src="../path/<?php echo $erow2['photo_barang']; ?>" class="img-responsive; img-rounded;" width="100%" height="500" />
+							<img src="../path/<?php echo $erow2['photo_barang']; ?>" class="img-responsive; img-rounded;" width="100%" height="100%" />
 						</div>
 					</div>
 					
@@ -172,7 +172,7 @@
 				<form method="#" action="#" enctype="multipart/form-data">
 					<div class="row">
 						<div class="col-lg-12">
-							<img src="../path/<?php echo $erow00['photo_barang']; ?>" class="img-responsive; img-rounded;" width="100%" height="500" />
+							<img src="../path/<?php echo $erow00['photo_barang']; ?>" class="img-responsive; img-rounded;" width="100%" height="100%" />
 						</div>
 					</div>
 					

@@ -469,8 +469,8 @@ include "../config_sqli.php";
       var stok = $('#stokBarang').val().trim();
       var countBatasStok = $('#hiddenBatasStok').val().trim();
 
-      totalStokBulanan = (parseInt(value, 10) + parseInt(countBatasStok, 10));
-      if(parseInt(value, 10) > parseInt(stok, 10) || totalStokBulanan > parseInt(stok, 10)) {
+      totalStokBulanan = (parseInt(value, 10) + parseInt(countBatasStok ? countBatasStok : 0, 10));
+      if(parseInt(value, 10) > totalStokBulanan) {
         const Toast = Swal.mixin({
           toast: true,
           position: 'top-end',
